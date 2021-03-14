@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-const { NotFound, BadRequest, Forbidden } = require('../errors');
+const { NotFound, BadRequest } = require('../errors');
 
 const getSavedMoviesByUser = (req, res, next) => {
   Movie.find({})
@@ -18,9 +18,8 @@ const getSavedMoviesByUser = (req, res, next) => {
 const createMovie = (req, res, next) => {
   const { country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN } = req.body;
   res.setHeader('Content-Type', 'application/json');
-  Movie.create({ country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN, _id: req.user._id })
+  Movie.create({ country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN, owner: req.user._id })
   .then((movie) => {
-    console.log(movie);
     if (!movie) {
       throw new BadRequest('Введите корректные данные');
     }
@@ -31,7 +30,22 @@ const createMovie = (req, res, next) => {
   });
 };
 
+const deleteMovie = (req, res, next) => {
+  const { movieId } = req.params;
+
+  Movie.findByIdAndDelete(movieId)
+  .then((data) => {
+    if (!data) {
+      throw new NotFound('Такой карточки не существует');
+    }
+
+    res.status(200).send(data);
+  })
+  .catch(err => next(err));
+};
+
 module.exports = {
   getSavedMoviesByUser,
   createMovie,
+  deleteMovie,
 }

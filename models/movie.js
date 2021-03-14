@@ -57,7 +57,7 @@ const movieSchema = new mongoose.Schema({
       message: 'Введите правильный URL',
     },
   },
-  _id: {
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true,
