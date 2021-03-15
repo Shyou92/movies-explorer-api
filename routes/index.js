@@ -11,7 +11,7 @@ router.post('/signin', login);
 router.use('/movies', auth, moviesRoutes);
 router.use('/users', auth, usersRoutes);
 
-router.use('*', (req, res) => {
+router.use('*', () => {
   throw new NotFound('Запрашиваемый ресурс не найден');
 });
 

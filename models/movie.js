@@ -11,7 +11,7 @@ const movieSchema = new mongoose.Schema({
   },
   duration: {
     type: Number,
-    required: true
+    required: true,
   },
   year: {
     type: String,
@@ -26,7 +26,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https?\:\/\/(www\.)?[(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}])+)?#?$/gi.test(
+        return /^https?:\/\/(www\.)?[(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}])+)?#?$/gi.test(
           v,
         );
       },
@@ -38,7 +38,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https?\:\/\/(www\.)?[(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}])+)?#?$/gi.test(
+        return /^https?:\/\/(www\.)?[(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}])+)?#?$/gi.test(
           v,
         );
       },
@@ -50,7 +50,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^https?\:\/\/(www\.)?[(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-\.\_~:/?#\[\]@!$&'\(\)*+,;=){1,}])+)?#?$/gi.test(
+        return /^https?:\/\/(www\.)?[(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}]+\.[a-z]{2,6}(([(a-z0-9\-._~:/?#[\]@!$&'()*+,;=){1,}])+)?#?$/gi.test(
           v,
         );
       },
@@ -74,7 +74,7 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     required: true,
-  }
-})
+  },
+});
 
 module.exports = mongoose.model('movie', movieSchema);
