@@ -2,13 +2,15 @@ const Movie = require('../models/movie');
 const { NotFound, BadRequest } = require('../errors');
 
 const getSavedMoviesByUser = (req, res, next) => {
-  Movie.find({})
+const {_id} = req.user;
+
+  Movie.find({owner: _id})
   .then((movie) => {
     if (!movie) {
       throw new NotFound('Фильмов не найдено');
     }
 
-    res.status(200).send(movie);
+      res.status(200).send(movie);
   })
   .catch((err) => {
     next(err);
@@ -32,11 +34,10 @@ const createMovie = (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
-
   Movie.findByIdAndDelete(movieId)
   .then((data) => {
     if (!data) {
-      throw new NotFound('Такой карточки не существует');
+      throw new NotFound('Такого фильма не существует');
     }
 
     res.status(200).send(data);

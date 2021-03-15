@@ -4,10 +4,9 @@ const User = require('../models/user');
 const { NotFound, BadRequest, Unauthorized } = require('../errors');
 
 const getCurrentUser = (req, res, next) => {
-  console.log(req);
-  User.find(req.user._id)
+  const _id = req.user;
+  User.find({ _id })
   .then((user) => {
-    console.log(user)
     if (!user) {
       throw new NotFound('Нет пользователя с таким id');
     }
@@ -59,8 +58,23 @@ const login = (req, res, next) => {
   .catch(err => next(err));
 };
 
+const updateUser = (req, res, next) => {
+  const id = req.user._id;
+
+  res.setHeader('Content-Type', 'application/json');
+  User.findByIdAndUpdate(id, { name: req.body.name, email: req.body.email }, { new: true })
+  .then((user) => {
+    if(!user) {
+      throw new BadRequest('Введите корректные данные');
+    }
+    res.status(200).send(user);
+  })
+  .catch(err => next(err));
+}
+
 module.exports = {
   getCurrentUser,
   createUser,
   login,
+  updateUser,
 }

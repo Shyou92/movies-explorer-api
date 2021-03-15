@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes');
 
 const PORT = 3000;
@@ -15,7 +16,11 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useFindAndModify: false
 })
 
+app.use(requestLogger);
+
 app.use('/', routes);
+
+app.use(errorLogger);
 
 app.listen(PORT, () => {
   console.log(`Application is being listened on port ${PORT}`);

@@ -13,7 +13,6 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, 'dae30aa901d151753b4412de0388851c443b36835922cf7f50b95abda195af1b');
     req.user = payload;
-    console.log(req.user)
   } catch(err) {
     throw new Forbidden('Необходима авторизация');
   }
