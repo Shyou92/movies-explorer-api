@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-const { NotFound, BadRequest } = require('../errors');
+const { NotFound, BadRequest, Forbidden } = require('../errors');
 
 const getSavedMoviesByUser = (req, res, next) => {
   const { _id } = req.user;
@@ -63,6 +63,9 @@ const deleteMovie = (req, res, next) => {
     .then((data) => {
       if (!data) {
         throw new NotFound('Такого фильма не существует');
+      }
+      if (data.owner.toString() !== req.user._id) {
+        throw new Forbidden('Нет доступа к этому фильму');
       }
 
       res.status(200).send(data);

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "lint": "npx eslint"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +19,7 @@
   "homepage": "https://github.com/Shyou92/movies-explorer-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "celebrate": "^13.0.4",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
