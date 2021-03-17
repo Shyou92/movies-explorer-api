@@ -3,12 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const {
-  APP_PORT = '4000',
-  DB_HOST = 'localhost',
-  DB_PORT = '27017',
-  DB_NAME = 'bitfilmsdb',
-} = require('./config');
+const { APP_PORT = '4000' } = require('./config');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -21,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
+mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
