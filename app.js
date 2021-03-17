@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
-  APP_PORT,
-  DB_HOST,
-  DB_PORT,
-  DB_NAME,
+  APP_PORT = 4000,
+  DB_HOST = 'localhost',
+  DB_PORT = 27017,
+  DB_NAME = 'bitfilmsdb',
 } = require('./config');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
