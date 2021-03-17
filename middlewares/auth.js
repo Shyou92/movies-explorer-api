@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { Forbidden } = require('../errors');
+const { JWT_SECRET } = require('../config');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, 'dae30aa901d151753b4412de0388851c443b36835922cf7f50b95abda195af1b');
+    payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
   } catch (err) {
     throw new Forbidden('Необходима авторизация');

@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config');
 const User = require('../models/user');
 const { NotFound, BadRequest, Unauthorized } = require('../errors');
 
@@ -51,7 +52,7 @@ const login = (req, res, next) => {
         throw new Unauthorized('Неправильные почта или пароль');
       }
 
-      const token = jwt.sign({ _id: user._id }, 'dae30aa901d151753b4412de0388851c443b36835922cf7f50b95abda195af1b', { expiresIn: '1d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
       res.send(token);
     })

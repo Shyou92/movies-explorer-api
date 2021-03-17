@@ -1,12 +1,12 @@
 const { celebrate, Joi } = require('celebrate');
-const { isValidObjectId } = require('mongoose');
+const validator = require('validator');
 
 const objectIdValidation = celebrate({
   params: Joi.object().keys({
-    movieId: Joi
+    movieId: Joi.string()
       .required()
       .custom((value) => {
-        if (!isValidObjectId(value)) {
+        if (!validator(value)) {
           throw new Error('Ошибка валидации. Передан неправильный Id');
         }
         return value;
