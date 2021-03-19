@@ -3,7 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { APP_PORT = 4000 } = require('./config');
+const { APP_PORT } = require('./config');
+const auth = require('./middlewares/auth');
 const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -24,6 +25,7 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 
 app.use(requestLogger);
 
+app.use(/\/$/, auth);
 app.use('/', routes);
 
 app.use(errorLogger);

@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const User = require('../models/user');
-const { NotFound, BadRequest, Unauthorized } = require('../errors');
+const { NotFound, BadRequest } = require('../errors');
 
 const getCurrentUser = (req, res, next) => {
   const _id = req.user;
@@ -21,7 +21,6 @@ const getCurrentUser = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
-  res.setHeader('Content-Type', 'application/json');
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
@@ -31,6 +30,7 @@ const createUser = (req, res, next) => {
       if (!user) {
         throw new BadRequest('Введите корректные данные');
       }
+
       const newUser = {
         name: user.name,
         _id: user._id,
@@ -49,12 +49,12 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new Unauthorized('Неправильные почта или пароль');
+        throw new BadRequest('Неправильные почта или пароль');
       }
 
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
-      res.send(token);
+      res.send({ message: token });
     })
     .catch((err) => next(err));
 };
@@ -62,8 +62,13 @@ const login = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const id = req.user._id;
 
-  res.setHeader('Content-Type', 'application/json');
-  User.findByIdAndUpdate(id, { name: req.body.name, email: req.body.email }, { new: true })
+  User.findByIdAndUpdate(id, {
+    name: req.body.name,
+    email: req.body.email,
+  }, {
+    new: true,
+    runValidators: true,
+  })
     .then((user) => {
       if (!user) {
         throw new BadRequest('Введите корректные данные');

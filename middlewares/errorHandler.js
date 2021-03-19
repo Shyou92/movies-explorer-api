@@ -1,20 +1,22 @@
 const { CelebrateError } = require('celebrate');
-const { Conflict } = require('../errors');
 
 const ErrorHandler = (err, req, res, next) => {
   if (err instanceof CelebrateError) {
-    return res.status(400).send(err.details.get('body'));
+    return res.status(400).send({
+      message:
+      err.details.get([...err.details.keys()][0]).details[0].message,
+    });
   }
 
   if (err.code === 11000) {
-    throw new Conflict('Такие данные уже зарегистрированы в базе');
+    return res.status(409).send({ message: 'Такие данные уже зарегистрированы в базе' });
   }
 
   if (err.status) {
     return res.status(err.status).send({ message: err.message });
   }
 
-  res.status(500).send({ message: err.message });
+  res.status(500).send({ message: 'Произошла ошибка' });
 
   return next();
 };
