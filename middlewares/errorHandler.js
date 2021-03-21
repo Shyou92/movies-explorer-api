@@ -8,7 +8,7 @@ const ErrorHandler = (err, req, res, next) => {
     });
   }
 
-  if (err.code === 11000) {
+  if (err.code === 11000 && err.name === 'MongoError') {
     return res.status(409).send({ message: 'Такие данные уже зарегистрированы в базе' });
   }
 

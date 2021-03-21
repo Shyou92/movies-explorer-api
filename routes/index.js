@@ -13,7 +13,7 @@ router.post('/signin', loginValidation, login);
 router.use('/movies', auth, moviesRoutes);
 router.use('/users', auth, usersRoutes);
 
-router.use('*', () => {
+router.use('*', auth, () => {
   throw new NotFound('Запрашиваемый ресурс не найден');
 });
 

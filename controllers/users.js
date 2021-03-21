@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const User = require('../models/user');
-const { NotFound, BadRequest } = require('../errors');
+const { NotFound, BadRequest, MongoValidationError } = require('../errors');
 
 const getCurrentUser = (req, res, next) => {
   const _id = req.user;
@@ -39,6 +39,9 @@ const createUser = (req, res, next) => {
       res.send({ data: newUser });
     })
     .catch((err) => {
+      if (err.code === 11000 && err.name === 'MongoError') {
+        next(new MongoValidationError('ConflictError. Такой пользователь уже зарегистрирован'));
+      }
       next(err);
     });
 };
