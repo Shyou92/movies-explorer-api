@@ -41,8 +41,9 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === 11000 && err.name === 'MongoError') {
         next(new MongoValidationError('ConflictError. Такой пользователь уже зарегистрирован'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
