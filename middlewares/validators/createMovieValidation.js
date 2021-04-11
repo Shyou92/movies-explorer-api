@@ -3,56 +3,54 @@ const validator = require('validator');
 
 const createMovieValidation = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required()
-      .messages({
-        'any.required': 'Обязательное поле',
-      }),
-    director: Joi.string().required()
-      .messages({
-        'any.required': 'Обязательное поле',
-      }),
-    duration: Joi.number().required()
-      .messages({
-        'any.required': 'Обязательное поле',
-      }),
-    year: Joi.number().required()
-      .messages({
-        'any.required': 'Обязательное поле',
-      }),
-    description: Joi.string().required()
-      .messages({
-        'any.required': 'Обязательное поле',
-      }),
-    image: Joi.string().required().custom((value) => {
-      if (!validator.isURL(value)) {
-        throw new Error('Ошибка. Введите URL');
-      }
-      return value;
+    country: Joi.string().required().messages({
+      'any.required': 'Обязательное поле country',
     }),
-    trailer: Joi.string().required().custom((value) => {
-      if (!validator.isURL(value)) {
-        throw new Error('Ошибка. Введите URL');
-      }
-      return value;
+    director: Joi.string().required().messages({
+      'any.required': 'Обязательное поле director',
     }),
-    thumbnail: Joi.string().required().custom((value) => {
-      if (!validator.isURL(value)) {
-        throw new Error('Ошибка. Введите URL');
-      }
-      return value;
+    duration: Joi.number().required().messages({
+      'any.required': 'Обязательное поле duration',
     }),
-    movieId: Joi.number().required()
-      .messages({
-        'any.required': 'Обязательное поле',
+    year: Joi.number().required().messages({
+      'any.required': 'Обязательное поле year',
+    }),
+    description: Joi.string().required().messages({
+      'any.required': 'Обязательное поле description',
+    }),
+    image: Joi.string()
+      .required()
+      .custom((value) => {
+        if (!validator.isURL(value)) {
+          throw new Error('Ошибка. Введите URL');
+        }
+        return value;
       }),
-    nameRU: Joi.string().required()
-      .messages({
-        'any.required': 'Обязательное поле',
+    trailer: Joi.string()
+      .required()
+      .custom((value) => {
+        if (!validator.isURL(value)) {
+          throw new Error('Ошибка. Введите URL');
+        }
+        return value;
       }),
-    nameEN: Joi.string().required()
-      .messages({
-        'any.required': 'Обязательное поле',
+    thumbnail: Joi.string()
+      .required()
+      .custom((value) => {
+        if (!validator.isURL(value)) {
+          throw new Error('Ошибка. Введите URL');
+        }
+        return value;
       }),
+    movieId: Joi.number().required().messages({
+      'any.required': 'Обязательное поле movieId',
+    }),
+    nameRU: Joi.string().required().messages({
+      'any.required': 'Обязательное поле nameRU',
+    }),
+    nameEN: Joi.string().required().messages({
+      'any.required': 'Обязательное поле nameEN',
+    }),
   }),
 });
 
