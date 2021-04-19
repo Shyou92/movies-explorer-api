@@ -1,4 +1,29 @@
-# movies-explorer-api
-backend to movie-explorer web-service
+# Movies-explorer-api
+----
+## Серверная часть дипломного проекта Movies-explorer
 
-URL: https://api.inmovies.students.nomoredomains.rocks, https://www.api.inmovies.students.nomoredomains.rocks
+----
+
+Данный проект реализован как часть серверной логики проекта Movies-explorer.  
+
+В нём реализованы следующие возможности:
+
+* Создание пользователя
+* Вход и выход из профиля
+* Добавление и удаление фильмов в коллекцию сохранённых
+* Просмотр коллекции сохраненных фильмов
+* Редактирование профиля
+* Получение информации о текущем пользователе  
+
+При создании проекта использовался следующий стек:  
+
+* Express.js  
+* mongoDB  
+* Git  
+* Работа с CORS  
+
+
+
+URL сервера:  
+https://api.inmovies.students.nomoredomains.rocks,  
+https://www.api.inmovies.students.nomoredomains.rocks

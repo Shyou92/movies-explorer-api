@@ -22,9 +22,12 @@ const getCurrentUser = (req, res, next) => {
 const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
 
-  bcrypt.hash(password, 10)
+  bcrypt
+    .hash(password, 10)
     .then((hash) => User.create({
-      name, email, password: hash,
+      name,
+      email,
+      password: hash,
     }))
     .then((user) => {
       if (!user) {
@@ -40,7 +43,11 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000 && err.name === 'MongoError') {
-        next(new MongoValidationError('ConflictError. Такой пользователь уже зарегистрирован'));
+        next(
+          new MongoValidationError(
+            'ConflictError. Такой пользователь уже зарегистрирован',
+          ),
+        );
       } else {
         next(err);
       }
@@ -56,7 +63,9 @@ const login = (req, res, next) => {
         throw new BadRequest('Неправильные почта или пароль');
       }
 
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: '1d',
+      });
 
       res.send({ message: token });
     })
@@ -66,13 +75,17 @@ const login = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const id = req.user._id;
 
-  User.findByIdAndUpdate(id, {
-    name: req.body.name,
-    email: req.body.email,
-  }, {
-    new: true,
-    runValidators: true,
-  })
+  User.findByIdAndUpdate(
+    id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  )
     .then((user) => {
       if (!user) {
         throw new BadRequest('Введите корректные данные');
